@@ -11,31 +11,3 @@
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-void	draw_sphere(t_rtv *s)
-{
-	int x = 0;
-    int y = 0;
-    s->b = s->win_surface->pixels;
-    while (x < WIDTH)
-    {
-        while (y < HEIGHT)
-        {
-            s->b[x * WIDTH + y] = 0xff;
-            y++;
-        }
-        x++;
-    }
-}
-
-
-
-// void    main_loop(t_rtv *s)
-// {
-//     int x;
-//     int y;
-
-//     x = 0;
-//     y = 0;
-
-// }

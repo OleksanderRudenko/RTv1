@@ -6,7 +6,7 @@
 /*   By: arudenko <arudenko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 15:57:23 by arudenko          #+#    #+#             */
-/*   Updated: 2018/03/15 17:13:59 by arudenko         ###   ########.fr       */
+/*   Updated: 2018/04/02 11:38:45 by arudenko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,8 @@ void	draw(t_rtv *s)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			 direction = convert_coords(s, x - WIDTH/2 , HEIGHT/2 -y);
-			//direction = convert_coords(s, x, y);
-			// printf("disx:%f\n", direction.x);
-			// printf("disy:%f\n", direction.y);
-			color = ray_tracer_sphere(&origin, &direction, 0.01f, 1000000, s);
-			//printf("%d\n", color);
+			direction = convert_coords(s, x - WIDTH / 2 , HEIGHT / 2 -y);
+			color = ray_tracer_figures(&origin, &direction, 0.01f, 1000000, s);
 			s->b[x + y * WIDTH] = color;
 			y++;
 		}
@@ -46,7 +42,7 @@ void	draw(t_rtv *s)
 int		main(int argc, char **argv)
 {
 	t_rtv rtv;
-	t_sphere	s;
+	t_figure	s;
 	init_rtv(&rtv);
 	init_sphere(&rtv);
 	init_light(&rtv);
@@ -58,5 +54,6 @@ int		main(int argc, char **argv)
 		draw(&rtv);
 		SDL_UpdateWindowSurface(rtv.win);
 	}
+	SDL_FreeSurface(rtv.win_surface);
 	return (0);
 }

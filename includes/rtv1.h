@@ -22,14 +22,9 @@
 # define AMBIENT 1
 # define POINT 2
 # define DIR 3
-#define min(a,b) (((a) < (b)) ? (a) : (b))
-
-// typedef enum	struct	e_type
-// {
-// 	ambient,
-// 	point,
-// 	directional
-// }						s_type;
+# define min(a,b) (((a) < (b)) ? (a) : (b))
+# define SPHERA 1
+# define PLANE 2
 
 typedef struct		s_vector
 {
@@ -66,15 +61,8 @@ typedef struct		s_light
 {
 	t_vector		pos;
 	int				type;
-	float			intens;
+	double			intens;
 }					t_light;
-
-/* Material Definition */
-typedef struct		s_material
-{
-	t_color			diffuse;
-	float			reflection;
-}					t_material;
 
 /* The ray */
 typedef struct		s_ray
@@ -84,19 +72,22 @@ typedef struct		s_ray
 }					t_ray;
 
 /* The sphere */
-typedef struct 		s_sphere
+typedef struct 		s_figure
 {
-	float 			radius;
+	double 			radius;
 	int				material;
+	int				name;
+	double			spec;
 	t_vector		pos;
+	t_vector		direction;
 	t_color			color;
-}					t_sphere;
+}					t_figure;
 
-typedef struct s_trace
+typedef struct		s_trace
 {
-	float	closest_spher;
-	t_sphere	sfera;	
-}t_trace;
+	double			closest_obj;
+	t_figure		near;
+}					t_trace;
 
 typedef struct		s_rtv
 {
@@ -106,7 +97,8 @@ typedef struct		s_rtv
 	SDL_Surface		*win_surface;
 	unsigned int	*buff;
 	unsigned int	*b;
-	t_sphere		*spher;
+	t_figure		*figure;
+	// t_figure		near;
 	t_light			*light;
 	t_ramka			vp;
 	t_trace			sf;
@@ -117,16 +109,19 @@ int			poll_event(t_rtv *s);
 void		init_rtv(t_rtv *s);
 void		draw_sphere(t_rtv *s);
 t_vector 	vector_sub(t_vector *v1, t_vector *v2);
-t_vector 	vector_mult_scal(float c, t_vector *v);
-float 		vector_dot(t_vector *v1, t_vector *v2);
-float		vec_len(t_vector *v);
+t_vector 	vector_mult_scal(double c, t_vector *v);
+double 		vector_dot(t_vector *v1, t_vector *v2);
+double		vec_len(t_vector *v);
 t_vector	vector_mult(t_vector *v1, t_vector *v2);
 t_vector 	vector_add(t_vector *v1, t_vector *v2);
-int		color_parse(int red, int green, int blue, float c);
+int		color_parse(int red, int green, int blue, double c);
 void		init_sphere(t_rtv *s);
 t_vector	convert_coords(t_rtv *s, int x, int y);
 void		draw(t_rtv *s);
-int 		ray_tracer_sphere(t_vector *o, t_vector *direction, float min, float max, t_rtv *s);
-float    	lightning(t_rtv *s, t_vector *point, t_vector *normal);
+int 		ray_tracer_figures(t_vector *o, t_vector *direction, double min, double max, t_rtv *s);
+double    lightning(t_rtv *s, t_vector *point, t_vector *normal, double spec, t_vector *view);
 void    init_light(t_rtv *s);
+t_root	find_plane(t_vector *origin, t_vector *direction, t_figure *obj);
+t_root	find_sphere(t_vector *origin, t_vector *direction, t_figure *sphere);
+void closest_object(t_vector *o, t_vector *direction, double min, double max, t_rtv *s);
 #endif

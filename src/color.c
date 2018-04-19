@@ -9,7 +9,7 @@ int clamp(int a)
 	return (a);
 }
 
-int		color_parse(int red, int green, int blue, float c)
+int		color_parse(int red, int green, int blue, double c)
 {
 	int r;
 	int g;

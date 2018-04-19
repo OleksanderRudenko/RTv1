@@ -7,7 +7,7 @@ FILES =	main \
 		draw \
 		vec_operation \
 		color \
-		discrim \
+		intersection \
 		coords \
 		light \
 		spher \
@@ -20,7 +20,7 @@ OBJ_LIST = $(addsuffix .o, $(FILES))
 SPEED = -O3
 
 #add -Werror to FLAGS, in the end of the project
-FLAGS = -Wall -Wextra
+FLAGS = -Wall -Wextra -Werror
 INCLUDES	=	-I./frameworks/SDL2.framework/Versions/A/Headers \
 				-F./frameworks/
 FRAMEWORKS	=	-F./frameworks \

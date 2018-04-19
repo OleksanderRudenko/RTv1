@@ -1,13 +1,15 @@
 #include "rtv1.h"
 
-t_root	find_sphere(t_vector *origin, t_vector *direction, t_sphere *sphere)
+t_root	find_sphere(t_vector *origin, t_vector *direction, t_figure *sphere)
 {
 	t_root		d;
-	float		discrim;
+	double		discrim;
 	t_vector	oc;
-	float		x1;
-	float		x2;
-	float		x3;
+	/*T0DO*/
+	/* create t_vector type for x1, x2, x3 */
+	double		x1;
+	double		x2;
+	double		x3;
 
 	oc = vector_sub(origin, &sphere->pos);
 	x1 = vector_dot(direction, direction);
@@ -23,40 +25,36 @@ t_root	find_sphere(t_vector *origin, t_vector *direction, t_sphere *sphere)
 	return (d);
 }
 
-int 	ray_tracer_sphere(t_vector *o, t_vector *direction, float min, float max, t_rtv *s)
+t_root	find_plane(t_vector *origin, t_vector *direction, t_figure *obj)
 {
-	s->sf.closest_spher = 0;
-	int	i = 0;
-	t_root	ts;
+	t_root	t;
+	t_root	k;
+	t_vector	subs;
+
+	subs = vector_sub(origin, &obj->pos);
+	k.a = vector_dot(direction, &obj->direction);
+	k.b = vector_dot(&subs, &obj->direction);
+	if (k.a != 0)
+		return ((t_root){-k.b / k.a, 0.0});
+	return ((t_root){0.0,0.0});
+}
+
+int 	ray_tracer_figures(t_vector *o, t_vector *direction, double min, double max, t_rtv *s)
+{
+	s->sf.closest_obj = max;
+	closest_object(o, direction, min, max, s);
+	if (s->sf.closest_obj == max)
+		return (0);
     t_vector    point;
     t_vector    normal;
-
-	while (i < 3)
-	{
-		// ts.a = -1;
-		// ts.b = -1;
-		ts = find_sphere(o, direction, &s->spher[i]);
-		if (ts.a > s->sf.closest_spher && min < ts.a && ts.a < max)
-		{
-			s->sf.closest_spher = ts.a;
-			break;
-		}
-		if (ts.b > s->sf.closest_spher && min < ts.b && ts.b < max)
-		{
-			s->sf.closest_spher = ts.b;
-			break;
-		}
-		i++;
-	}
     t_vector a;
-    a = vector_mult_scal(s->sf.closest_spher, direction);
+
+    a = vector_mult_scal(s->sf.closest_obj, direction);
     point = vector_add(o, &a);
-    normal = vector_sub(&point, &s->spher[i].pos);
+    normal = vector_sub(&point, &s->sf.near.pos);
     normal = vector_mult_scal(1.0 / vec_len(&normal), &normal);
-	if (s->sf.closest_spher == 0)
-		return (0);
-    float   fg =  lightning(s, &point, &normal);
-    //printf("%f\n", fg);
-	return((color_parse((int)s->spher[i].color.red , (int)s->spher[i].color.green, (int)s->spher[i].color.blue, fg)));
-    //return((color_parse((int)s->spher[i].color.red, (int)s->spher[i].color.green, (int)s->spher[i].color.blue)));
+	t_vector view = vector_mult_scal(-1.0, direction);
+
+    double   fg =  lightning(s, &point, &normal, s->sf.near.spec, &view);
+	return((color_parse((int)s->sf.near.color.red , (int)s->sf.near.color.green, (int)s->sf.near.color.blue, fg)));
 }
