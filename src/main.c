@@ -17,12 +17,11 @@ void	draw(t_rtv *s)
 	int x;
 	int y;
 	int color;
-	t_vector origin;
-	t_vector direction;
+	t_ray ray;
 
-	origin.x = 0;
-	origin.y = 0;
-	origin.z = 0;
+	ray.origin.x = 0;
+	ray.origin.y = 0;
+	ray.origin.z = 1;
 	x = 0;
 	s->b = s->win_surface->pixels;
 	while (x < WIDTH )
@@ -30,8 +29,8 @@ void	draw(t_rtv *s)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			direction = convert_coords(s, x - WIDTH / 2 , HEIGHT / 2 -y);
-			color = ray_tracer_figures(&origin, &direction, 0.01f, 1000000, s);
+			ray.dir = convert_coords(s, x - WIDTH / 2 , HEIGHT / 2 -y);
+			color = ray_tracer_figures(ray.origin, ray.dir, 0.01f, 1000000, s);
 			s->b[x + y * WIDTH] = color;
 			y++;
 		}
@@ -46,14 +45,15 @@ int		main(int argc, char **argv)
 	init_rtv(&rtv);
 	init_sphere(&rtv);
 	init_light(&rtv);
+	draw(&rtv);
 	while (1)
 	{
 		if (!poll_event(&rtv))
 			return (0);
-		ft_bzero(rtv.win_surface->pixels, WIDTH * HEIGHT * 4);
-		draw(&rtv);
+		// ft_bzero(rtv.win_surface->pixels, WIDTH * HEIGHT * 4);
 		SDL_UpdateWindowSurface(rtv.win);
 	}
+
 	SDL_FreeSurface(rtv.win_surface);
 	return (0);
 }

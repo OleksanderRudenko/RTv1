@@ -27,7 +27,7 @@ int		poll_event(t_rtv *s)
 		// if (e.key.keysym.sym == SDLK_d)
 		// 	s->figure[6].direction.x += 0.4;
 		// if (e.key.keysym.sym == SDLK_a)
-		// 	s->figure[6].direction.x -= 0.1;
+		// 	s->figure[6].direction.x -= 1;
 		// if (e.key.keysym.sym == SDLK_w)
 		// 	s->figure[6].direction.y += 0.1;
 		// if (e.key.keysym.sym == SDLK_s)
@@ -42,16 +42,16 @@ int		poll_event(t_rtv *s)
 		// 	s->figure[6].pos.x -= 0.1;
 
 		if (e.key.keysym.sym == SDLK_w)
-			s->light[3].pos.z += 0.1;
+			s->light[3].pos.y += 0.3;
 		if (e.key.keysym.sym == SDLK_s)
-			s->light[3].pos.z -= 0.1;
+			s->light[3].pos.y -= 0.3;
 		if (e.key.keysym.sym == SDLK_d)
-			s->light[3].pos.x += 0.1;
+			s->light[3].pos.x += 0.3;
 		if (e.key.keysym.sym == SDLK_a)
-			s->light[3].pos.x -= 0.1;
+			s->light[3].pos.x -= 0.3;
 		if (e.key.keysym.sym == SDLK_q)
-			s->light[3].pos.y += 0.1;
+			s->light[3].pos.z += 0.3;
 		if (e.key.keysym.sym == SDLK_z)
-			s->light[3].pos.y -= 0.1;
+			s->light[3].pos.z -= 0.3;
 	return (1);
 }

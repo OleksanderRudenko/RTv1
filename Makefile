@@ -11,6 +11,7 @@ FILES =	main \
 		coords \
 		light \
 		spher \
+		normals \
 		
 HDRS = includes/rtv1.h
 

@@ -9,16 +9,16 @@ int clamp(int a)
 	return (a);
 }
 
-int		color_parse(int red, int green, int blue, double c)
+int		color_parse(t_color col, double c)
 {
 	int r;
 	int g;
 	int b;
 	int	color;
 
-	r = clamp((red & 0xFF) * c);
-	g = clamp((green & 0xFF) * c);
-	b = clamp((blue & 0xFF) * c);
+	r = clamp((col.red & 0xFF) * c);
+	g = clamp((col.green & 0xFF) * c);
+	b = clamp((col.blue & 0xFF) * c);
 	color = (r << 16 | g << 8 | b);
 	return (color);
 }
