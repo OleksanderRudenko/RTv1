@@ -17,8 +17,8 @@
 # include <math.h>
 # include "../libft/libft.h"
 
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 600
+# define HEIGHT 600
 # define AMBIENT 1
 # define POINT 2
 # define DIR 3
@@ -43,9 +43,9 @@ typedef struct		s_root
 /* Color */
 typedef struct		s_color
 {
-	int			red;
-	int			green;
-	int			blue;
+	unsigned int			r;
+	unsigned int			g;
+	unsigned int			b;
 }					t_color;
 
 typedef struct		s_ramka
@@ -135,4 +135,6 @@ t_vector plane_normal(t_figure *fig);
 t_vector vnormalize(t_vector a);
 t_color		texture_color(t_vector normal,double hit);
 int clamp(int a);
+Uint32		getcolor(SDL_Surface *surf, int x, int y);
+// Uint32		texture_sphere(t_obj *obj);
 #endif
