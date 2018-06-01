@@ -65,33 +65,42 @@ int ray_tracer_figures(t_vector o, t_vector direction, double min, double max, t
 t_color		texture_color(t_vector normal, double hit)
 {
 	t_color		col;
-	int			color;
+	Uint32		color;
 	SDL_Surface *surf;
-	unsigned int	*arr;
 	float		u;
 	float		v;
-	t_vector	d;
+	int x = 0;
+	int y = 0;
+
 
 	u = 0.5 + atan2(normal.z, normal.x) / M_PI * 0.5;
 	v = 0.5 - asin(normal.y/2)/M_PI;
 	v = v - floor(v);
-		// printf("u: %f v: %f\n", u * WIDTH ,v * WIDTH);
+	u = u - floor(u);
+		// printf("u: %d v: %d\n", x ,y);
 	surf = SDL_LoadBMP("text.bmp");
 	if (surf == NULL)
 		ft_putendl("LolWat");
-	arr = surf->pixels;
+	SDL_LockSurface( surf );
 
-	color = arr[(int)(u * 10) + (int)(v * WIDTH)];
+	x = (int)((surf->w * u * 100) / 2 * M_PI);
+	y = (int)((surf->h * v * 100) / 2 * M_PI);
+	color = getcolor(surf, abs(x % (int)surf->w), abs(y % (int)surf->h));
 
-	// int i = 0;
-	// while (i < 100)
-	// {
-	// 	printf("%d\n", arr[i]);
-	// 	++i;
-	// }
-	col.red = clamp(color >> 16);
-	col.green = clamp(color >> 8);
-	col.blue = clamp(color);
-	// exit(0);
+	SDL_UnlockSurface( surf );
+	col.r = (color >> 16);
+	col.g = (color >> 8);
+	col.b = (color);
 	return (col);
+}
+
+Uint32		getcolor(SDL_Surface *surf, int x, int y)
+{
+	Uint8			*pixel;
+	unsigned int	sz;
+
+	sz = sizeof(Uint32);
+	pixel = (Uint8*)surf->pixels;
+	pixel += ((Uint32)y * (Uint32)surf->pitch) + ((Uint32)x * sz);
+	return (*((Uint32*)pixel));
 }
