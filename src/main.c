@@ -21,7 +21,7 @@ void	draw(t_rtv *s)
 
 	ray.origin.x = 0;
 	ray.origin.y = 0;
-	ray.origin.z = 1;
+	ray.origin.z = -1;
 	x = 0;
 	s->b = s->win_surface->pixels;
 	while (x < WIDTH )
@@ -29,8 +29,8 @@ void	draw(t_rtv *s)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			ray.dir = convert_coords(s, x - WIDTH / 2 , HEIGHT / 2 -y);
-			color = ray_tracer_figures(ray.origin, ray.dir, 0.01f, 1000000, s);
+			ray.dir = convert_coords(s, x - WIDTH / 2 , HEIGHT / 2 - y);
+			color = ray_tracer_figures(ray.origin, ray.dir, 0.0001f, 1000000.0, s);
 			s->b[x + y * WIDTH] = color;
 			y++;
 		}

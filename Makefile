@@ -4,13 +4,13 @@ FILES =	main \
 		inites \
 		events \
 		error \
-		draw \
+		finder_fig \
 		vec_operation \
 		color \
 		intersection \
 		coords \
 		light \
-		spher \
+		ray_trace \
 		normals \
 		
 HDRS = includes/rtv1.h

@@ -12,7 +12,7 @@ t_vector vector_sub(t_vector v1, t_vector v2)
 }
 
 /* Calculate Vector x Scalar and return resulting Vector*/
-t_vector vector_mult_scal(double c, t_vector v)
+t_vector vector_mult_scal(float c, t_vector v)
 {
 	t_vector res;
 
@@ -33,7 +33,7 @@ t_vector vector_mult(t_vector v1, t_vector v2)
 }
 
 /* Multiply two vectors and return the resulting scalar (dot product) */
-double vector_dot(t_vector v1, t_vector v2)
+float vector_dot(t_vector v1, t_vector v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
@@ -49,14 +49,14 @@ t_vector vector_add(t_vector v1, t_vector v2)
 	return res;
 }
 
-double vec_len(t_vector v)
+float vec_len(t_vector v)
 {
 	return (sqrtf(vector_dot(v, v)));
 }
 
 t_vector vnormalize(t_vector a)
 {
-	double len;
+	float len;
 
 	len = vec_len(a);
 	return ((t_vector){a.x / len, a.y / len, a.z / len});

@@ -1,6 +1,18 @@
 #include "rtv1.h"
 
-void closest_object(t_vector o, t_vector direction, double min, double max, t_rtv *s)
+
+t_root finder_figures(t_vector o, t_vector d, t_figure *fig)
+{
+	if (fig->name == SPHERA)
+		return ( find_sphere(o, d, fig));
+	else if (fig->name == PLANE)
+		return (find_plane(o, d, fig));
+	else if (fig->name == CYLINDER)
+		return (find_cylinder(o, d, fig));
+	return ((t_root){-1.0, -1.0});
+}
+
+void closest_object(t_vector o, t_vector direction, float min, float max, t_rtv *s)
 {
 	t_root	ts;
 	int i;
@@ -10,10 +22,7 @@ void closest_object(t_vector o, t_vector direction, double min, double max, t_rt
  	i = -1;
 	while (++i < NUM_FIGURES)
 	{
-		if (s->figure[i].name == SPHERA)
-			ts = find_sphere(o, direction, &s->figure[i]);
-		if (s->figure[i].name == PLANE)
-			ts = find_plane(o, direction, &s->figure[i]);
+		ts = finder_figures(o, direction, &s->figure[i]);
 		if (ts.a < s->sf.closest_obj && min < ts.a && ts.a < max)
 		{
 			s->sf.closest_obj = ts.a;
@@ -27,7 +36,7 @@ void closest_object(t_vector o, t_vector direction, double min, double max, t_rt
 	}
 }
 
-void closest_object_light(t_vector o, t_vector direction, double min, double max, t_rtv *s)
+void closest_object_light(t_vector o, t_vector direction, float min, float max, t_rtv *s)
 {
 	t_root	ts;
 	int i;
@@ -37,10 +46,7 @@ void closest_object_light(t_vector o, t_vector direction, double min, double max
  	i = -1;
 	while (++i < NUM_FIGURES)
 	{
-		if (s->figure[i].name == SPHERA)
-			ts = find_sphere(o, direction, &s->figure[i]);
-		if (s->figure[i].name == PLANE)
-			ts = find_plane(o, direction, &s->figure[i]);
+		ts = finder_figures(o, direction, &s->figure[i]);
 		if (ts.a < s->sf.closest_obj2 && min < ts.a && ts.a < max)
 		{
 			s->sf.closest_obj2 = ts.a;

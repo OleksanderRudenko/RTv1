@@ -6,6 +6,6 @@ t_vector		convert_coords(t_rtv *s, int x, int y)
 
 	dis.x = ((float)x) * s->vp.w / WIDTH;
 	dis.y = ((float)y) * s->vp.h / HEIGHT;
-	dis.z = 0.6;
+	dis.z = 1.0;
 	return (dis);
 }
