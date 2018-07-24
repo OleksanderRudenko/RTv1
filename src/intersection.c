@@ -9,10 +9,12 @@ t_root finder_figures(t_vector o, t_vector d, t_figure *fig)
 		return (find_plane(o, d, fig));
 	else if (fig->name == CYLINDER)
 		return (find_cylinder(o, d, fig));
+	else if (fig->name == CONE)
+		return (find_cone(o, d, fig));
 	return ((t_root){-1.0, -1.0});
 }
 
-void closest_object(t_vector o, t_vector direction, float min, float max, t_rtv *s)
+void closest_object(t_vector o, t_vector direction, double min, double max, t_rtv *s)
 {
 	t_root	ts;
 	int i;
@@ -36,7 +38,7 @@ void closest_object(t_vector o, t_vector direction, float min, float max, t_rtv 
 	}
 }
 
-void closest_object_light(t_vector o, t_vector direction, float min, float max, t_rtv *s)
+void closest_object_light(t_vector o, t_vector direction, double min, double max, t_rtv *s)
 {
 	t_root	ts;
 	int i;

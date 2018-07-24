@@ -15,25 +15,21 @@
 t_root find_sphere(t_vector origin, t_vector direction, t_figure *sphere)
 {
 	t_root d;
-	float discrim;
+	double discrim;
 	t_vector oc;
-	/*T0DO*/
-	/* create t_vector type for x1, x2, x3 */
-	float x1;
-	float x2;
-	float x3;
+	t_vector res;
 
 	oc = vector_sub(origin, sphere->pos);
-	x1 = vector_dot(direction, direction);
-	x2 = 2 * vector_dot(oc, direction);
-	x3 = vector_dot(oc, oc) - sphere->radius * sphere->radius;
-	discrim = x2 * x2 - (4.0 * x1 * x3);
+	res.x = vector_dot(direction, direction);
+	res.y = 2 * vector_dot(oc, direction);
+	res.z = vector_dot(oc, oc) - sphere->radius * sphere->radius;
+	discrim = res.y * res.y - (4.0 * res.x * res.z);
 	if (discrim < 0)
 	{
 		return ((t_root){-1, -1});
 	}
-	d.a = (-x2 + sqrt(discrim) / (2.0 * x1));
-	d.b = (-x2 - sqrt(discrim) / (2.0 * x1));
+	d.a = ((-res.y + sqrt(discrim)) / (2.0 * res.x));
+	d.b = ((-res.y - sqrt(discrim)) / (2.0 * res.x));
 	return (d);
 }
 
@@ -72,28 +68,52 @@ t_root find_plane(t_vector origin, t_vector direction, t_figure *obj)
 
 t_root			find_cylinder(t_vector origin, t_vector dir, t_figure *obj)
 {
-    	/*T0DO*/
-	/* create t_vector type for a, b, c */
-	float a;
-	float b;
-	float c;
-	float discrim;
-    t_root d;
+	t_vector	res;
+	double		discrim;
+	t_root		d;
 
     // obj->pos = vnormalize(obj->pos);
-	a = vector_dot(dir, dir) - pow(vector_dot(dir, obj->direction), 2.0);
+	res.x = vector_dot(dir, dir) - pow(vector_dot(dir, obj->direction), 2.0);
 
-	b = (vector_dot(dir, vector_sub(origin, obj->pos)) - vector_dot(dir, obj->direction) *
+	res.y = (vector_dot(dir, vector_sub(origin, obj->pos)) - vector_dot(dir, obj->direction) *
 			vector_dot(vector_sub(origin, obj->pos), obj->direction)) * 2.0;
 
-	c = vector_dot(vector_sub(origin, obj->pos), vector_sub(origin, obj->pos)) -
+	res.z = vector_dot(vector_sub(origin, obj->pos), vector_sub(origin, obj->pos)) -
 		pow(vector_dot(vector_sub(origin, obj->pos), obj->direction), 2) - (obj->radius * obj->radius);
-	discrim = b * b - (4.0 * a * c);
+	discrim = res.y * res.y - (4.0 * res.x * res.z);
 	if (discrim < 0)
 	{
 		return ((t_root){-1, -1});
 	}
-	d.a = (-b + sqrt(discrim) / (2.0 * a));
-	d.b = (-b - sqrt(discrim) / (2.0 * a));
+	d.a = ((-res.y + sqrt(discrim)) / (2.0 * res.x));
+	d.b = ((-res.y - sqrt(discrim)) / (2.0 * res.x));
+	return (d);
+}
+
+t_root		find_cone(t_vector origin, t_vector dir, t_figure *obj)
+{
+	//vector - dir
+	t_vector	res;
+	double		discrim;
+	t_root d;
+
+	res.x = vector_dot(dir, dir) - ((1 + pow(obj->radius, 2)) *
+			(pow(vector_dot(dir, obj->direction), 2)));
+	res.y = 2 * (vector_dot(dir, vector_sub(origin, obj->pos)) -
+			((1 + pow(obj->radius, 2)) *
+			vector_dot(dir, obj->direction) *
+			vector_dot(vector_sub(origin, obj->pos), obj->direction)));
+	res.z = vector_dot(vector_sub(origin, obj->pos),
+			vector_sub(origin, obj->pos)) -
+			((1 + pow(obj->radius, 2)) *
+			(pow(vector_dot(vector_sub(origin, obj->pos),
+					obj->direction), 2)));
+	discrim = (res.y * res.y) - (4 * res.x * res.z);
+	if (discrim < 0)
+	{
+		return ((t_root){-1, -1});
+	}
+	d.a = ((-res.y + sqrt(discrim)) / (2.0 * res.x));
+	d.b = ((-res.y - sqrt(discrim)) / (2.0 * res.x));
 	return (d);
 }

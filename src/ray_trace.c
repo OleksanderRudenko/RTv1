@@ -1,6 +1,6 @@
 #include "rtv1.h"
 
-int ray_tracer_figures(t_vector o, t_vector direction, float min, float max, t_rtv *s)
+int ray_tracer_figures(t_vector o, t_vector direction, double min, double max, t_rtv *s)
 {
 	s->sf.closest_obj = max;
 	closest_object(o, direction, min, max, s);
@@ -17,18 +17,18 @@ int ray_tracer_figures(t_vector o, t_vector direction, float min, float max, t_r
 	
 	t_vector view = vector_mult_scal(-1.0, direction);
 
-	float fg = lightning(s, point, normal, s->sf.near->spec, view);
+	double fg = lightning(s, point, normal, s->sf.near->spec, view);
 	if (s->sf.near->material == 0)
 		s->sf.near->color = texture_color(normal, s->sf.closest_obj, s->texure_surf);
 	return ((color_parse(s->sf.near->color, fg)));
 }
 
-t_color		texture_color(t_vector normal, float hit, SDL_Surface *texture)
+t_color		texture_color(t_vector normal, double hit, SDL_Surface *texture)
 {
 	t_color		col;
 	Uint32		color;
-	float		u;
-	float		v;
+	double		u;
+	double		v;
 	int x = 0;
 	int y = 0;
 
