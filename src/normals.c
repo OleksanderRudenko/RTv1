@@ -39,7 +39,7 @@ t_vector spher_normal(t_figure *fig, t_vector point)
 t_vector plane_normal(t_figure *fig)
 {
 	// vec_len(fig->direction)
-	return (vnormalize(fig->pos));
+	return (vnormalize(fig->direction));
 }
 
 t_vector		cylinder_normal(t_vector point, t_figure *fig)
