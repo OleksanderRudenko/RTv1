@@ -1,5 +1,5 @@
 # RTv1-demo-
-demo_spheres_only 
+4 basic figures - sphere, cone, cylinder, plane
 
 To run the application on iMac
 
